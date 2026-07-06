@@ -42,13 +42,26 @@ console.log('🌐 CORS allowed origins:', allowedOrigins);
 app.use(
   cors({
     origin(origin, callback) {
-      // Allow non-browser clients (curl, health checks) with no origin.
-      if (!origin || allowedOrigins.includes(normalizeOrigin(origin))) {
-        return callback(null, true);
-      }
-      console.warn(`⛔ CORS blocked origin: ${origin} (allowed: ${allowedOrigins.join(', ')})`);
-      return callback(null, false);
-    },
+  // Allow requests with no Origin (Postman, curl, health checks)
+  if (!origin) {
+    return callback(null, true);
+  }
+
+  const normalized = normalizeOrigin(origin);
+
+  // Allow explicitly configured origins
+  if (allowedOrigins.includes(normalized)) {
+    return callback(null, true);
+  }
+
+  // Allow ALL Vercel deployments
+  if (normalized.endsWith(".vercel.app")) {
+    return callback(null, true);
+  }
+
+  console.warn(`⛔ CORS blocked origin: ${origin}`);
+  return callback(new Error("Not allowed by CORS"));
+},
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization', 'Accept', 'Cookie'],
