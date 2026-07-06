@@ -8,8 +8,8 @@ import fileRoutes from './modules/file-upload/file.routes.js';
 import blogRoutes from './modules/blog/blog.route.js';
 import { globalErrorHandler } from './middlewares/errorMiddleware.js';
 import authRoutes from './modules/auth/auth.route.js';
-import blogcategoryRoutes from "../src/modules/blogCategory/blogCategory.route.js";
-import coursecategoryRoutes from "../src/modules/courseCategory/courseCategory.routes.js";
+import blogcategoryRoutes from "./modules/blogCategory/blogCategory.route.js";
+import coursecategoryRoutes from "./modules/courseCategory/courseCategory.routes.js";
 import userRoutes from './modules/user/user.route.js';
 import courseRoutes from './modules/course/course.routes.js';
 
